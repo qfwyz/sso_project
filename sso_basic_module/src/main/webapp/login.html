@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+    username:<input type="text" id="username" /><br>
+    password:<input type="password" id="password" /><br>
+    <button id="loginBtn">login</button>
+</body>
+<script type="text/javascript">
+    $("#loginBtn").click(function () {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            method:"post",
+            url:"login",
+            data:"username="+username+"&password="+password,
+           // data:{"username":username,"password":password},
+            dataType:"json",
+            beforeSend: function(request) {
+                request.setRequestHeader("token", localStorage.getItem("token"));
+            },
+            success: function (data) {
+
+                //存入localstrage
+                localStorage.setItem("token",data.token);
+                //重定向
+                location.href = "http://www.baidu.com?token="+localStorage.getItem("token");
+            }
+        });
+    });
+</script>
+</html>
