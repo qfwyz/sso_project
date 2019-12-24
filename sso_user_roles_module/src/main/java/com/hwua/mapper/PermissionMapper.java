@@ -1,9 +1,9 @@
 package com.hwua.mapper;
 
-import com.huwa.domain.Permission;
-import com.huwa.domain.PermissionExample;
-import java.util.List;
+import com.hwua.domain.*;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PermissionMapper {
     long countByExample(PermissionExample example);

@@ -1,9 +1,9 @@
 package com.hwua.mapper;
 
-import com.huwa.domain.Role;
-import com.huwa.domain.RoleExample;
-import java.util.List;
+import com.hwua.domain.*;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RoleMapper {
     long countByExample(RoleExample example);

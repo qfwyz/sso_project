@@ -1,7 +1,6 @@
 package com.hwua.mapper;
 
-import com.huwa.domain.RolePermission;
-import com.huwa.domain.RolePermissionExample;
+import com.hwua.domain.*;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
