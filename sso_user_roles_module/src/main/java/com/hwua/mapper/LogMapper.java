@@ -1,9 +1,10 @@
 package com.hwua.mapper;
 
-import com.huwa.domain.Log;
-import com.huwa.domain.LogExample;
-import java.util.List;
+
+import com.hwua.domain.*;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface LogMapper {
     long countByExample(LogExample example);

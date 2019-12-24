@@ -12,7 +12,7 @@ public class UserAction {
 
     @PostMapping("/user/login")
     public ResponseData login(@RequestBody User user){
-           
+
         return new ResponseData();
     }
 }

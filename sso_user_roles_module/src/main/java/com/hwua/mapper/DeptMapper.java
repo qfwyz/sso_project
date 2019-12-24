@@ -1,9 +1,10 @@
 package com.hwua.mapper;
 
-import com.huwa.domain.Dept;
-import com.huwa.domain.DeptExample;
-import java.util.List;
+
+import com.hwua.domain.*;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface DeptMapper {
     long countByExample(DeptExample example);
