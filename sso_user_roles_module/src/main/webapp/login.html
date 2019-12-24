@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> 后台管理系统</title>
+    <title>后台管理系统</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
 </head>
 <style>
@@ -66,11 +66,10 @@
         var carousel = layui.carousel
         $(function () {
         form.on('submit(submit)',function (data) {
-            CoreUtil.sendAjax("/sys/user/login",JSON.stringify(data.field),function (res) {
+            CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
                 CoreUtil.setData("access_token",res.data.accessToken);
                 CoreUtil.setData("refresh_token",res.data.refreshToken);
-                window.location.href="/index/home";
-
+                window.location.href="/home";
         });
             return false;
          });
