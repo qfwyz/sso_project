@@ -26,7 +26,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletResponse resp = (HttpServletResponse) response;
         //判断请求路径
         String servletPath = req.getServletPath();
-        if("login".equals(servletPath.equals("login"))){
+        if("login".equals(servletPath)){
             try {
                 //执行登录方法
                 executeLogin(req,resp);
