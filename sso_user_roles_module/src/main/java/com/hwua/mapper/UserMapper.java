@@ -15,6 +15,8 @@ public interface UserMapper {
     @Select("select * from user where username=#{username}")
     User selectByUsername(User user);
 
+
+
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);

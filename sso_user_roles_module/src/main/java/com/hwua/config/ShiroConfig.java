@@ -33,8 +33,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/layui/**","anon");
         filterChainDefinitionMap.put("/user/login","anon");
-        filterChainDefinitionMap.put("/**","authc");
-       // filterChainDefinitionMap.put("/user/login","jwt_token");
+
+        filterChainDefinitionMap.put("/**","jWTFilter");
         return shiroFilterFactoryBean;
     }
 
