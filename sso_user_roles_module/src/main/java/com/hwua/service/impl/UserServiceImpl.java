@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User getUserByUsername(User srcUser) {
-        User user = userMapper.selectByUsername(srcUser);
+    public User getUserByUsername(String username) {
+        User user = userMapper.selectByUsername(username);
         return user;
     }
 
@@ -24,5 +24,10 @@ public class UserServiceImpl implements UserService {
     public User getUserInfoByUsername(String username) {
         User user = userMapper.selectUserInfoByUsername(username);
         return user;
+    }
+
+    @Override
+    public void changePasswordByUsername(String username) {
+
     }
 }

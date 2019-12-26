@@ -5,6 +5,8 @@ import com.hwua.domain.Role;
 import com.hwua.domain.User;
 import com.hwua.mapper.UserMapper;
 import com.hwua.service.UserService;
+import com.hwua.util.JWTUtil;
+import com.hwua.util.MyJwtToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -23,39 +25,40 @@ public class MyRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof MyJwtToken;
+    }
 
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        //把参数强转为UsernamePasswordToken
-        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        //获取用户名
-        String username = usernamePasswordToken.getUsername();
-        //根据用户名查询
-        User user = null;
-        try{
-            User paramUser = new User();
-            paramUser.setUsername(username);
-           user = userService.getUserByUsername(paramUser);
-            //判断对象是否为空
-            if (user!=null){
-                //使用用户名作为盐
-                ByteSource bytes = ByteSource.Util.bytes(username);
-                //构建对象
-                SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(usernamePasswordToken,user.getPassword(),bytes,getName());
-                //获取当前的会话对象
-                Subject subject = SecurityUtils.getSubject();
-                return simpleAuthenticationInfo;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        //获取token
+        String token = authenticationToken.getPrincipal().toString();
+        //获取密码
+        String password = authenticationToken.getCredentials().toString();
+        //解密token,获取真实用户名
+        String username = JWTUtil.decodeToken(token);
+        //判断用户名不为空
+        if (username==null||(!JWTUtil.checkToken(username,password,token))){
+            throw new AuthenticationException("用户名错误!!!");
         }
-        return null;
-    }
+        //判断密码是否正确
+        User user = userService.getUserByUsername(username);
+        if (!user.getPassword().equals(password)){
+            throw new AuthenticationException("密码错误!!!");
+        }
+        //使用用户名作为盐
+        ByteSource bytes = ByteSource.Util.bytes(username);
+        //构建对象
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(token,user.getPassword(),bytes,getName());
+        return simpleAuthenticationInfo;
+     }
+
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //获取用户名
-        String username = ((UsernamePasswordToken)principals.getPrimaryPrincipal()).getUsername();
+        String username = JWTUtil.decodeToken(principals.getPrimaryPrincipal().toString());
         //根据用户名查询用户
         User user = userService.getUserInfoByUsername(username);
         //构建对象

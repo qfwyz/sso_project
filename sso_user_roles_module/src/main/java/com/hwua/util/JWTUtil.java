@@ -17,30 +17,32 @@ import java.util.Date;
 public class JWTUtil {
 
     //构建token
-    public static String createToken(String username,String psssword) throws Exception {
+    public static String createToken(String username,String password) throws Exception {
         //获取JWTCreator中的Builder对象
         JWTCreator.Builder builder = JWT.create().
                 withClaim("username", username).
                 //设置过期时间
                 withExpiresAt(new Date(System.currentTimeMillis()+30*60*1000));
         //构建一个加密的凭证
-        Algorithm algorithm = Algorithm.HMAC256(psssword);
+        Algorithm algorithm = Algorithm.HMAC256(password);
         //构建token
         String token = builder.sign(algorithm);
         return token;
     }
 
     //解码token
-    public static String decodeToken(String token, String username) throws Exception {
+    public static String decodeToken(String token) {
+        System.out.println(token);
         //构建解码器
         DecodedJWT decode = JWT.decode(token);
+
         //获取有效负载里面的数据
-        String stringClaim = decode.getClaim(username).asString();
+        String stringClaim = decode.getClaim("username").asString();
         return stringClaim;
     }
 
     //验证token
-    public static boolean ckeckToken(String username,String password,String token) throws  Exception{
+    public static boolean checkToken(String username,String password,String token){
         //构建验证器
         JWTVerifier build = JWT.require(Algorithm.HMAC256(password)).build();
         //执行验证方法

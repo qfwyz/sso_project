@@ -21,14 +21,9 @@ public class ShiroConfig {
         filters.put("jWTFilter",new JWTFilter());
         //属性注值
         shiroFilterFactoryBean.setSecurityManager(getSecurityManager());
-        //登录界面
-        shiroFilterFactoryBean.setLoginUrl("/login.html");
-        //成功之后的界面
-        shiroFilterFactoryBean.setSuccessUrl("/home.html");
         shiroFilterFactoryBean.setUnauthorizedUrl("/error/500.html");
         //获取过滤器的集合
         Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
-
         //设置集合的内容
         /*
         第一个参数是  对应的资源
@@ -40,7 +35,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/layui/**","anon");
         filterChainDefinitionMap.put("/user/login","anon");
-
         filterChainDefinitionMap.put("/**","jWTFilter");
         return shiroFilterFactoryBean;
     }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
     @Select("select * from user where username=#{username}")
-    User selectByUsername(User user);
+    User selectByUsername(String username);
 
     User selectUserInfoByUsername(String username);
 }

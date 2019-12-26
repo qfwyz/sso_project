@@ -1,20 +1,13 @@
 package com.hwua.filter;
 
-import com.hwua.domain.User;
 import com.hwua.mapper.UserMapper;
-import com.hwua.service.UserService;
-import com.hwua.util.JWTUtil;
 import com.hwua.util.MyJwtToken;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Autowired
@@ -25,7 +18,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         if (isLoginAttempt(request, response)){
             try {
                 executeLogin(request,response);
-                return true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -38,9 +30,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletRequest req = (HttpServletRequest) request;
         //优化返回方案
         //判断请求头是否携带token
-        String token = req.getHeader("token");
+        String token = req.getHeader("authorization");
         if (token==null||token.trim().equals("")){
-            token = req.getParameter("token");
+            token = req.getParameter("authorization");
         }
         return token!=null;
     }
@@ -49,9 +41,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest req = (HttpServletRequest) request;
         //获取请求消息头信息或者路径信息    获取token
-        String token = req.getHeader("token");
+        String token = req.getHeader("authorization");
         if (token==null||token.trim()==""){
-            token = req.getParameter("token");
+            token = req.getParameter("authorization");
         }
         //上述代码确保了token一定不为空
         /**
