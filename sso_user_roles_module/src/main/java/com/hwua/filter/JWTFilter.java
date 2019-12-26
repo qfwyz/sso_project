@@ -36,21 +36,13 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
-        //判断请求路径
-        String servletPath = req.getServletPath();
-        if("login".equals(servletPath)){
-            //判断请求头是否携带token
-            //获取请求消息头信息或者路径信息    获取token
-            String token = req.getHeader("token");
-            if (token!=null&&token.trim()!=""){
-                return true;
-            }
+        //优化返回方案
+        //判断请求头是否携带token
+        String token = req.getHeader("token");
+        if (token==null||token.trim().equals("")){
             token = req.getParameter("token");
-            if (token!=null&&token.trim()!=""){
-                return true;
-            }
         }
-        return false;
+        return token!=null;
     }
 
     @Override
