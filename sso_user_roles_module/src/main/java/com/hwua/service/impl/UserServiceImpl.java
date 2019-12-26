@@ -3,9 +3,11 @@ package com.hwua.service.impl;
 import com.hwua.domain.User;
 import com.hwua.mapper.UserMapper;
 import com.hwua.service.UserService;
+import com.hwua.util.PasswordUtil;
 import com.hwua.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.util.Password;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,25 +27,16 @@ public class UserServiceImpl implements UserService {
             return responseData;
         }
         //判断密码是否正确
-        if (user==null){
+         if (!PasswordUtil.checkPassword(srcUser.getPassword(),user.getPassword(),user.getUsername(),2019)){
             responseData.setCode(503);
-            responseData.setMessage("用户名不存在");
+            responseData.setMessage("密码错误");
             responseData.setT(srcUser);
             return responseData;
         }
-        if (user==null){
-            responseData.setCode(503);
-            responseData.setMessage("用户名不存在");
-            responseData.setT(srcUser);
-            return responseData;
-        }
-        if (user==null){
-            responseData.setCode(503);
-            responseData.setMessage("用户名不存在");
-            responseData.setT(srcUser);
-            return responseData;
-        }
-
-        return null;
+        //用户名和密码匹配
+        responseData.setCode(200);
+        responseData.setMessage("登陆成功");
+        responseData.setT(user);
+        return responseData;
     }
 }

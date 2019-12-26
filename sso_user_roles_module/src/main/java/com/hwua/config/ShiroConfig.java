@@ -1,11 +1,13 @@
 package com.hwua.config;
 
+import com.hwua.filter.JWTFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.Map;
 
 @Configuration
@@ -14,14 +16,19 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(){
         //过滤器工厂对象
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        //添加自定义的过滤器
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("jWTFilter",new JWTFilter());
         //属性注值
         shiroFilterFactoryBean.setSecurityManager(getSecurityManager());
         //登录界面
         shiroFilterFactoryBean.setLoginUrl("/login.html");
         //成功之后的界面
         shiroFilterFactoryBean.setSuccessUrl("/main.html");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/error/500.html");
         //获取过滤器的集合
         Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
+
         //设置集合的内容
         /*
         第一个参数是  对应的资源
@@ -55,7 +62,6 @@ public class ShiroConfig {
         MyRealm myRealm = new MyRealm();
         //设置加密算法
         myRealm.setCredentialsMatcher(getHashedCredentialsMatcher());
-        //myRealm.isCachingEnabled()
         return myRealm;
     }
 

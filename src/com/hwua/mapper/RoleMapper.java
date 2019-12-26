@@ -1,16 +1,16 @@
 package com.hwua.mapper;
 
-import com.hwua.domain.*;
-import org.apache.ibatis.annotations.Param;
-
+import com.huwa.domain.Role;
+import com.huwa.domain.RoleExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface RoleMapper {
     long countByExample(RoleExample example);
 
     int deleteByExample(RoleExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(Role record);
 
@@ -18,7 +18,7 @@ public interface RoleMapper {
 
     List<Role> selectByExample(RoleExample example);
 
-    Role selectByPrimaryKey(Integer id);
+    Role selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") Role record, @Param("example") RoleExample example);
 

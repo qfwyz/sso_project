@@ -1,4 +1,4 @@
-package com.hwua.domain;
+package com.huwa.domain;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.hwua.domain;
+package com.huwa.domain;
 
 public class UserWithBLOBs extends User {
     private byte[] sslCipher;

@@ -19,6 +19,18 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Autowired
     private UserMapper userMapper;
 
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        if (isLoginAttempt(request, response)){
+            try {
+                executeLogin(request,response);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
 
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
@@ -27,13 +39,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         //判断请求路径
         String servletPath = req.getServletPath();
         if("login".equals(servletPath)){
-            try {
-                //执行登录方法
-                executeLogin(req,resp);
-            } catch (Exception e) {
-                e.printStackTrace();
+            //判断请求头是否携带token
+            //获取请求消息头信息或者路径信息    获取token
+            String token = req.getHeader("token");
+            if (token!=null&&token.trim()!=""){
+                return true;
             }
-            return true;
+            token = req.getParameter("token");
+            if (token!=null&&token.trim()!=""){
+                return true;
+            }
         }
         return false;
     }

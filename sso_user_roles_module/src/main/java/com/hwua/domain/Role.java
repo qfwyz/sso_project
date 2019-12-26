@@ -1,33 +1,27 @@
 package com.hwua.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 public class Role {
-    private Integer id;
-
+    private String id;
     private String name;
+    private String description;
+    private Byte status;
+    private Date createTime;
+    private Date updateTime;
+    private Byte deleted;
 
-    private Integer userId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+    //一个角色可以对应多个权限    安全起见    配置多个权限
+    private Set<Permission> permissions = new HashSet<>();
 }

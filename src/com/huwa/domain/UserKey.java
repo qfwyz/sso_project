@@ -1,4 +1,4 @@
-package com.hwua.domain;
+package com.huwa.domain;
 
 public class UserKey {
     private String host;
