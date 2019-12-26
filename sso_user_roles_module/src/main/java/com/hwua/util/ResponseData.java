@@ -3,10 +3,12 @@ package com.hwua.util;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
 public class ResponseData <T> {
     //响应的标号
     private Integer code;

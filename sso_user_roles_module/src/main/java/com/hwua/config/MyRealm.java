@@ -4,6 +4,7 @@ import com.hwua.domain.Permission;
 import com.hwua.domain.Role;
 import com.hwua.domain.User;
 import com.hwua.mapper.UserMapper;
+import com.hwua.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -20,7 +21,7 @@ import java.util.Set;
 public class MyRealm extends AuthorizingRealm {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
 
     @Override
@@ -34,7 +35,7 @@ public class MyRealm extends AuthorizingRealm {
         try{
             User paramUser = new User();
             paramUser.setUsername(username);
-           user = userMapper.selectByUsername(paramUser);
+           user = userService.getUserByUsername(paramUser);
             //判断对象是否为空
             if (user!=null){
                 //使用用户名作为盐
@@ -55,11 +56,8 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //获取用户名
         String username = ((UsernamePasswordToken)principals.getPrimaryPrincipal()).getUsername();
-        //构建临时用户
-        User tempUser = new User();
-        tempUser.setUsername(username);
         //根据用户名查询用户
-        User user = userMapper.selectByUsername(tempUser);
+        User user = userService.getUserInfoByUsername(username);
         //构建对象
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         //给用户关联角色

@@ -19,9 +19,11 @@ public class UserAction {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUsername(),user.getPassword());
        //执行登录
        subject.login(usernamePasswordToken);
-
+       //构建返回对象,除此之外的错误对象交给全局处理异常处理
         ResponseData<User> userResponseData = new ResponseData<>();
         userResponseData.setCode(200);
+        userResponseData.setT(user);
+        userResponseData.setMessage("login success");
         return userResponseData;
     }
 }

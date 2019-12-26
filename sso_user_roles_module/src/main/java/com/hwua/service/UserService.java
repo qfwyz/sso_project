@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    ResponseData login(User user);
+    //用户登录操作
+    //User login(User user);
+    User getUserByUsername(User user);
 
+    //根据用户名查询用户权限
+    User getUserInfoByUsername(String username);
 }
