@@ -70,7 +70,7 @@ var CoreUtil = (function () {
             error:function (XMLHttpRequest, textStatus, errorThrown) {
                 top.layer.close(roleSaveLoading);
                if(XMLHttpRequest.status==404){
-                    top.window.location.href="/index/404";
+                  //  top.window.location.href="/index/404";
                 }else{
                     layer.msg("服务器好像除了点问题！请稍后试试");
                 }

@@ -3,24 +3,27 @@ package com.hwua.config;
 import com.hwua.domain.Permission;
 import com.hwua.domain.Role;
 import com.hwua.domain.User;
-import com.hwua.mapper.UserMapper;
 import com.hwua.service.UserService;
 import com.hwua.util.JWTUtil;
 import com.hwua.util.MyJwtToken;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Iterator;
 import java.util.Set;
 
+@Slf4j
 public class MyRealm extends AuthorizingRealm {
+
 
     @Autowired
     private UserService userService;
@@ -32,6 +35,7 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        log.info("----------------认证-------------------");
         //获取token
         String token = authenticationToken.getPrincipal().toString();
         //获取密码
@@ -57,6 +61,7 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        log.info("----------------授权-------------------");
         //获取用户名
         String username = JWTUtil.decodeToken(principals.getPrimaryPrincipal().toString());
         //根据用户名查询用户
