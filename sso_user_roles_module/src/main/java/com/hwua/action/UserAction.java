@@ -2,6 +2,7 @@ package com.hwua.action;
 
 import com.hwua.domain.User;
 import com.hwua.service.UserService;
+import com.hwua.util.JWTUtil;
 import com.hwua.util.PasswordUtil;
 import com.hwua.util.ResponseData;
 import org.apache.shiro.SecurityUtils;
@@ -35,6 +36,7 @@ public class UserAction {
         userResponseData.setCode(0);
         userResponseData.setT(user);
         userResponseData.setMessage("login success");
+        userResponseData.setAccessToken(JWTUtil.createToken(username,password));
         return userResponseData;
     }
 

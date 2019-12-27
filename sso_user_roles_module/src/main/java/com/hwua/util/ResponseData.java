@@ -17,6 +17,6 @@ public class ResponseData <T> {
     //详细的错误描述信息
     private String message;
     //前端需要的两个token
-    private  String access_token;
-    private  String refresh_token;
+    private  String accessToken;
+    private  String refreshToken;
 }
