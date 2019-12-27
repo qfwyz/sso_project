@@ -34,9 +34,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletRequest req = (HttpServletRequest) request;
         //优化返回方案
         //判断请求头是否携带token
-        String token = req.getHeader("authorization");
+        String token = req.getHeader("token");
         if (token==null||token.trim().equals("")){
-            token = req.getParameter("authorization");
+            token = req.getParameter("token");
         }
         return token!=null;
     }
@@ -46,9 +46,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         log.info("--------------------executeLogin-------------------------");
         HttpServletRequest req = (HttpServletRequest) request;
         //获取请求消息头信息或者路径信息    获取token
-        String token = req.getHeader("authorization");
+        String token = req.getHeader("token");
         if (token==null||token.trim()==""){
-            token = req.getParameter("authorization");
+            token = req.getParameter("token");
         }
         //上述代码确保了token一定不为空
         /**
@@ -58,7 +58,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
          * 2)自定义一个token对象
          */
         MyJwtToken myJwtToken = new MyJwtToken();
-        myJwtToken.setToken(token);
+        myJwtToken.setToken(request.getParameter("username"));
+        myJwtToken.setPassword(request.getParameter("password"));
         getSubject(request, response).login(myJwtToken);
         return true;
     }

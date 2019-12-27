@@ -67,8 +67,8 @@
         $(function () {
         form.on('submit(submit)',function (data) {
             CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
-               /* CoreUtil.setData("access_token",res.data.accessToken);
-                CoreUtil.setData("refresh_token",res.data.refreshToken);*/
+                CoreUtil.setData("access_token",res.data.accessToken);
+                CoreUtil.setData("refresh_token",res.data.refreshToken);
                 window.location.href="/home.html";
         });
             return false;
